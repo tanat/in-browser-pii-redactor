@@ -1,0 +1,202 @@
+[
+  {
+    "id": "clinical-001",
+    "text": "Schedule follow-up with John Smith (DOB 1962-03-14, MRN 4471832). Call 415-555-0143.",
+    "expectedSpans": [
+      {
+        "type": "PERSON",
+        "start": 24,
+        "end": 34
+      },
+      {
+        "type": "DATE",
+        "start": 40,
+        "end": 50
+      },
+      {
+        "type": "PHONE",
+        "start": 71,
+        "end": 83
+      }
+    ]
+  },
+  {
+    "id": "clinical-002",
+    "text": "Patient Maria Garcia presented on March 5, 2024 with chest pain. SSN 123-45-6789.",
+    "expectedSpans": [
+      {
+        "type": "PERSON",
+        "start": 8,
+        "end": 20
+      },
+      {
+        "type": "DATE",
+        "start": 34,
+        "end": 47
+      },
+      {
+        "type": "SSN",
+        "start": 69,
+        "end": 80
+      }
+    ]
+  },
+  {
+    "id": "legal-001",
+    "text": "On 2023-11-02, Acme Corp agreed to send notice to robert.lee@example.org.",
+    "expectedSpans": [
+      {
+        "type": "DATE",
+        "start": 3,
+        "end": 13
+      },
+      {
+        "type": "EMAIL",
+        "start": 50,
+        "end": 72
+      }
+    ]
+  },
+  {
+    "id": "legal-002",
+    "text": "The court at 1600 Pennsylvania Avenue heard testimony from Sarah Johnson.",
+    "expectedSpans": [
+      {
+        "type": "ADDRESS",
+        "start": 13,
+        "end": 37
+      },
+      {
+        "type": "PERSON",
+        "start": 59,
+        "end": 72
+      }
+    ]
+  },
+  {
+    "id": "financial-001",
+    "text": "Wire instructions: contact billing@bank.com or 212-555-0199 for routing.",
+    "expectedSpans": [
+      {
+        "type": "EMAIL",
+        "start": 27,
+        "end": 43
+      },
+      {
+        "type": "PHONE",
+        "start": 47,
+        "end": 59
+      }
+    ]
+  },
+  {
+    "id": "financial-002",
+    "text": "Customer Daniel Kim, account opened 2021-07-15 in San Francisco.",
+    "expectedSpans": [
+      {
+        "type": "PERSON",
+        "start": 9,
+        "end": 19
+      },
+      {
+        "type": "DATE",
+        "start": 36,
+        "end": 46
+      },
+      {
+        "type": "LOCATION",
+        "start": 50,
+        "end": 63
+      }
+    ]
+  },
+  {
+    "id": "conversational-001",
+    "text": "Hey Olivia! ping me at olivia.x@mail.io or +1 415.555.0123 after 4pm.",
+    "expectedSpans": [
+      {
+        "type": "PERSON",
+        "start": 4,
+        "end": 10
+      },
+      {
+        "type": "EMAIL",
+        "start": 23,
+        "end": 39
+      },
+      {
+        "type": "PHONE",
+        "start": 43,
+        "end": 58
+      }
+    ]
+  },
+  {
+    "id": "mixed-001",
+    "text": "Anna Brown lives at 142 Maple St, Burlington VT — call 802-555-0140.",
+    "expectedSpans": [
+      {
+        "type": "PERSON",
+        "start": 0,
+        "end": 10
+      },
+      {
+        "type": "ADDRESS",
+        "start": 20,
+        "end": 32
+      },
+      {
+        "type": "LOCATION",
+        "start": 34,
+        "end": 44
+      },
+      {
+        "type": "PHONE",
+        "start": 55,
+        "end": 67
+      }
+    ]
+  },
+  {
+    "id": "edge-001",
+    "text": "antidisestablishmentarianism is a long word; reach me at long@user.dev.",
+    "expectedSpans": [
+      {
+        "type": "EMAIL",
+        "start": 57,
+        "end": 70
+      }
+    ]
+  },
+  {
+    "id": "edge-002",
+    "text": "Two Johns: John Adams in Boston met John Quincy Adams in Washington on 1825-03-04.",
+    "expectedSpans": [
+      {
+        "type": "PERSON",
+        "start": 11,
+        "end": 21
+      },
+      {
+        "type": "LOCATION",
+        "start": 25,
+        "end": 31
+      },
+      {
+        "type": "PERSON",
+        "start": 36,
+        "end": 53
+      },
+      {
+        "type": "LOCATION",
+        "start": 57,
+        "end": 67
+      },
+      {
+        "type": "DATE",
+        "start": 71,
+        "end": 81
+      }
+    ]
+  }
+]

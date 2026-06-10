@@ -15,7 +15,7 @@
 ```
 User types in <contenteditable>
         │
-        ▼  MutationObserver
+        ▼  input event
    debounce 200ms
         │
         ▼ snapshot { text, version++ }

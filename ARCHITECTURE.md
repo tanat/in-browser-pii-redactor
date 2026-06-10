@@ -61,7 +61,7 @@
                     User input (paste / type in <contenteditable>)
                                      │
                                      ▼
-                          MutationObserver records the change
+                          input event records the change
                                      │
                                      ▼
                           Debounce (200 ms idle)
@@ -116,16 +116,13 @@ pii-redactor/
 │   ├── main.tsx
 │   ├── App.tsx
 │   ├── components/
-│   │   ├── Editor.tsx               # contenteditable + redaction renderer
-│   │   ├── ModelStatus.tsx          # "Loading 110 MB..." / "Ready on WebGPU" indicator
-│   │   ├── SpanBadge.tsx            # rendered redaction with click-to-reveal
-│   │   ├── PrivacyDevtoolsHint.tsx  # one-time tooltip about the Network tab
+│   │   ├── Editor.tsx               # contenteditable + redaction renderer + click-to-reveal popover
 │   │   └── EvalDashboard.tsx        # /eval page contents
+│   │   # (status bar + legend are inline in App.tsx)
 │   ├── pipeline/
 │   │   ├── regex.ts                 # all 5 regex extractors + tests
 │   │   ├── merge.ts                 # span overlap resolution
-│   │   ├── debounce.ts              # 200 ms idle debounce
-│   │   └── snapshot.ts              # versioned snapshot manager
+│   │   └── snapshot.ts              # versioned snapshot manager (200 ms idle debounce lives here)
 │   ├── worker/
 │   │   ├── inference.worker.ts      # dedicated worker; all transformers.js code lives here
 │   │   ├── pipeline-init.ts         # one-time pipeline setup with device fallback
@@ -143,11 +140,11 @@ pii-redactor/
 │   │   ├── benchmark.ts             # WebGPU vs WASM perf
 │   │   └── results.json             # append-only history
 │   ├── fixtures/
-│   │   ├── synthetic.json           # 30 hand-written texts with PII spans
+│   │   ├── synthetic.json           # hand-written texts with PII spans (10 committed; corpus targets 30)
 │   │   └── README.md                # how I built the fixtures
 │   └── types/
-│       ├── span.ts                  # Span, EntityType, ConfidenceLevel
-│       └── messages.ts              # WorkerMessage union types
+│       ├── span.ts                  # Span, EntityType, MlSpan, RegexSpan
+│       └── messages.ts              # ToWorker / FromWorker union types
 │
 ├── public/                          # nothing committed here; cache handles models
 ├── docs/
@@ -305,7 +302,7 @@ Unit tests in `pipeline/__tests__/merge.test.ts` cover each of the four cases + 
 
 ### Fixtures
 
-`fixtures/synthetic.json` — 30 texts, hand-written by **you**, with spans annotated manually:
+`fixtures/synthetic.json` — hand-written texts, with spans annotated manually (10 committed as a seed; the corpus targets 30):
 
 ```json
 [
@@ -355,7 +352,7 @@ export function evaluateSpans(
     for (let i = 0; i < expected.length; i++) {
       if (matched.has(i)) continue;
       const iou = spanIoU(pred, expected[i]);
-      if (iou > bestIoU) {
+      if (iou >= bestIoU) {
         bestIoU = iou;
         bestIdx = i;
       }
@@ -380,7 +377,7 @@ IoU threshold = 0.5 — standard for span tasks. On medical/legal texts PERSON b
 
 ### Benchmark: WebGPU vs WASM
 
-`eval/benchmark.ts` runs the pipeline over the same 30 fixtures **twice** — once on WebGPU, once forced to WASM (`forceBackend: 'wasm'`). It measures:
+`eval/benchmark.ts` runs the pipeline over the committed fixture corpus **twice** — once on WebGPU, once forced to WASM (`forceBackend: 'wasm'`). It measures:
 - Per-text inference latency (median, p95)
 - Total throughput (texts/second)
 - Memory pressure (where available, e.g. Chromium's `performance.memory`)

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { X } from 'lucide-react';
 import { charRangeToDomRange } from '../alignment/char-to-dom';
 import type { Span } from '../types/span';
 
@@ -118,35 +119,56 @@ export function Editor({ initialText, spans, masked, onTextChange }: EditorProps
   };
 
   return (
-    <div className="relative">
+    <div className="group relative">
       <div
         ref={ref}
         contentEditable
         suppressContentEditableWarning
+        spellCheck={false}
         onInput={onInput}
         onClick={onClick}
-        className="min-h-32 border rounded p-3 text-sm font-mono outline-none focus:ring-2 focus:ring-blue-300 leading-relaxed whitespace-pre-wrap"
+        role="textbox"
+        aria-multiline="true"
+        aria-label="Text to redact"
+        className="min-h-48 w-full rounded-xl border border-slate-200 bg-white/90 p-4 text-[0.9rem] font-mono leading-7 text-slate-800 shadow-sm outline-none transition focus:border-sky-400 focus:shadow-[0_0_0_4px_rgba(56,189,248,0.16)] sm:p-5 sm:text-sm"
       />
       {popover && (
         <div
-          className="absolute z-10 bg-white border rounded shadow text-xs p-2 max-w-sm"
+          className="absolute z-20 max-w-xs rounded-xl border border-slate-200 bg-white/95 p-3 text-xs shadow-xl ring-1 ring-black/5 backdrop-blur"
           style={{ left: popover.x, top: popover.y }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="font-semibold">{popover.span.type}</div>
-          <div className="text-gray-600">
-            original: <span className="font-mono">{popover.span.text}</span>
+          <div className="flex items-center justify-between gap-3">
+            <span
+              className={`redaction redaction-${popover.span.type.toLowerCase()} text-[0.7rem]`}
+            >
+              {popover.span.type}
+            </span>
+            <button
+              className="rounded-md p-0.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+              onClick={() => setPopover(null)}
+              aria-label="Close details"
+            >
+              <X className="size-3.5" />
+            </button>
           </div>
-          <div className="text-gray-500">
-            source: {popover.span.source} · confidence:{' '}
-            {popover.span.confidence.toFixed(3)}
+          <div className="mt-2 break-all font-mono text-[0.78rem] font-medium text-slate-800">
+            {popover.span.text}
           </div>
-          <button
-            className="mt-1 text-blue-600 hover:underline"
-            onClick={() => setPopover(null)}
-          >
-            close
-          </button>
+          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.68rem] text-slate-500">
+            <span className="inline-flex items-center gap-1">
+              <span className="font-medium uppercase tracking-wide text-slate-400">
+                source
+              </span>
+              {popover.span.source}
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <span className="font-medium uppercase tracking-wide text-slate-400">
+                conf
+              </span>
+              {popover.span.confidence.toFixed(3)}
+            </span>
+          </div>
         </div>
       )}
     </div>

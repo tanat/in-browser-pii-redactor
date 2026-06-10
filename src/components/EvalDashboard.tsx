@@ -47,43 +47,62 @@ export function EvalDashboard() {
   };
 
   return (
-    <main className="mx-auto max-w-4xl p-8 space-y-6">
-      <h1 className="text-2xl font-bold">Evaluation</h1>
-      <p className="text-sm text-gray-600">
-        Runs all {FIXTURES.length} fixtures through the full pipeline (regex + ML + merge),
-        scored as span-level F1 with IoU ≥ 0.5. Each fixture is run on both WebGPU and WASM.
-      </p>
-      <div className="flex gap-3">
+    <main className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
+      <header className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="text-xl font-bold tracking-tight text-slate-900 sm:text-2xl">
+            Evaluation
+          </h1>
+          <p className="mt-1 max-w-2xl text-sm text-slate-500">
+            Runs all {FIXTURES.length} fixtures through the full pipeline (regex + ML + merge),
+            scored as span-level F1 with IoU ≥ 0.5. Each fixture is run on both WebGPU and WASM.
+          </p>
+        </div>
+        <a
+          href="/"
+          className="shrink-0 rounded-lg border border-slate-200 bg-white/70 px-3 py-1.5 text-xs font-medium text-slate-600 transition hover:border-slate-300 hover:text-slate-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+        >
+          ← Back to redactor
+        </a>
+      </header>
+      <div className="mt-6 flex flex-wrap gap-2">
         <button
           onClick={onRun}
           disabled={running}
-          className="px-3 py-1 rounded bg-black text-white disabled:opacity-50"
+          className="rounded-lg bg-slate-900 px-3.5 py-1.5 text-sm font-semibold text-white transition hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-50"
         >
           {running ? 'Running…' : 'Run evaluation'}
         </button>
         <button
           onClick={onDownload}
           disabled={!report}
-          className="px-3 py-1 rounded border disabled:opacity-50"
+          className="rounded-lg border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 disabled:opacity-50"
         >
           Download eval-results.json
         </button>
-        <button onClick={onExportLog} className="px-3 py-1 rounded border">
+        <button
+          onClick={onExportLog}
+          className="rounded-lg border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+        >
           Export inference log (NDJSON)
         </button>
         <button
           onClick={() => clearLog()}
-          className="px-3 py-1 rounded border text-red-600"
+          className="rounded-lg border border-red-200 bg-white px-3.5 py-1.5 text-sm font-medium text-red-600 transition hover:border-red-300 hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
         >
           Clear log
         </button>
       </div>
       {progress && (
-        <p className="text-sm text-gray-600">
+        <p className="mt-4 text-sm text-slate-500">
           {progress.done}/{progress.total} — {progress.label}
         </p>
       )}
-      {report && <ReportTable report={report} />}
+      {report && (
+        <div className="mt-6">
+          <ReportTable report={report} />
+        </div>
+      )}
     </main>
   );
 }

@@ -290,8 +290,8 @@ function StatusBar({ status, latency }: { status: Status; latency: number | null
         <div className="flex items-center gap-2 text-xs font-medium text-slate-600">
           <Loader2 className="size-3.5 shrink-0 animate-spin text-sky-500" />
           <span className="truncate">
-            Downloading model
-            {status.file ? <span className="text-slate-400"> · {status.file}</span> : null}
+            Loading on-device model
+            <span className="text-slate-400"> · one-time ~110 MB, cached after</span>
           </span>
           <span className="ml-auto shrink-0 tabular-nums text-slate-400">
             {pct.toFixed(0)}%

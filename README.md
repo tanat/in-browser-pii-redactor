@@ -1,8 +1,8 @@
 # In-Browser PII Redactor
 
-> Paste any text with personal information. Names, emails, phones, dates, and addresses are highlighted and redacted in place — within 200 ms after you stop typing. **Open DevTools → Network. It's empty.** All inference runs in the browser on WebGPU. The text never leaves the device.
+**[Live demo →](https://in-browser-pii-redactor.vercel.app)**
 
-![Privacy demo placeholder — drop a `docs/demo.gif` here showing paste → real-time redaction → empty network tab](docs/demo.gif)
+> Paste any text with personal information. Names, emails, phones, dates, and addresses are highlighted and redacted in place — within 200 ms after you stop typing. **Open DevTools → Network. It's empty.** All inference runs in the browser on WebGPU. The text never leaves the device.
 
 ## What this demonstrates
 
